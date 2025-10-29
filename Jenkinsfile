@@ -7,7 +7,7 @@
  * Prerequisites:
  * - Python 3.8+ installed on Jenkins Windows agent
  * - ODBC Driver 18 for SQL Server installed
- * - Network access to s002 (192.168.50.14) and Azure PostgreSQL
+ * - Network access to s002 (S002.groundzero.local:1433) and Azure PostgreSQL
  */
 
 pipeline {
@@ -20,7 +20,7 @@ pipeline {
 
     environment {
         // Source: S002 SQL Server (credentials from Jenkins)
-        SQL_SERVER = '192.168.50.14'
+        SQL_SERVER = 'S002.groundzero.local,1433'
         SQL_DATABASE = 'GZCDB'
         SQL_USERNAME = credentials('s002-sql-username')
         SQL_PASSWORD = credentials('s002-sql-password')

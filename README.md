@@ -52,7 +52,7 @@
    - Install on Windows Jenkins agent
 
 3. **Network Access**
-   - s002 SQL Server: `192.168.50.14:1433`
+   - s002 SQL Server: `S002.groundzero.local:1433`
    - Azure PostgreSQL: `gzcdevserver.postgres.database.azure.com:5432`
 
 ## Installation
@@ -137,7 +137,7 @@ All configuration via environment variables (see `.env.example`):
 
 | Variable | Default | Description |
 |----------|---------|-------------|
-| `SQL_SERVER` | `192.168.50.14` | s002 SQL Server host |
+| `SQL_SERVER` | `S002.groundzero.local,1433` | s002 SQL Server host |
 | `SQL_DATABASE` | `GZCDB` | Source database name |
 | `SQL_USERNAME` | `production` | SQL Server username |
 | `SQL_PASSWORD` | - | SQL Server password |

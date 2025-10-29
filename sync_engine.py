@@ -38,11 +38,11 @@ class SyncConfig:
     """Configuration from environment variables or defaults"""
 
     # S002 SQL Server (READ ONLY)
-    SQL_SERVER = os.getenv('SQL_SERVER', '192.168.50.14')
+    SQL_SERVER = os.getenv('SQL_SERVER', 'S002.groundzero.local,1433')
     SQL_DATABASE = os.getenv('SQL_DATABASE', 'GZCDB')
     SQL_USERNAME = os.getenv('SQL_USERNAME', 'production')
-    SQL_PASSWORD = os.getenv('SQL_PASSWORD', 'pq12rs34')
-    SQL_DRIVER = os.getenv('SQL_DRIVER', '{ODBC Driver 18 for SQL Server}')
+    SQL_PASSWORD = os.getenv('SQL_PASSWORD', '')
+    SQL_DRIVER = os.getenv('SQL_DRIVER', '{ODBC Driver 17 for SQL Server}')
 
     # Azure PostgreSQL (WRITE)
     PG_HOST = os.getenv('PG_HOST', 'gzcdevserver.postgres.database.azure.com')
@@ -183,18 +183,18 @@ class FXTradeSync:
                 records = FXTradeSync.fetch_missing_records(sql_cursor, missing_ids)
                 inserted = FXTradeSync.insert_records(pg_cursor, records)
                 pg_conn.commit()
-                logger.info(f"✅ Inserted {inserted} records")
+                logger.info(f"[OK] Inserted {inserted} records")
 
             # Final verification
             pg_cursor.execute(f"SELECT COUNT(*) FROM {FXTradeSync.TARGET_TABLE}")
             final_count = pg_cursor.fetchone()[0]
-            logger.info(f"✅ Final count in Azure: {final_count}")
+            logger.info(f"[OK] Final count in Azure: {final_count}")
 
             if final_count == len(source_ids):
-                logger.info("✅ EXACT MATCH - All records synced!")
+                logger.info("[OK] EXACT MATCH - All records synced!")
                 return True
             else:
-                logger.warning(f"⚠️  MISMATCH - Expected {len(source_ids)}, got {final_count}")
+                logger.warning(f"[WARN] MISMATCH - Expected {len(source_ids)}, got {final_count}")
                 return False
 
         finally:
@@ -303,18 +303,18 @@ class FXOptionTradeSync:
                 records = FXOptionTradeSync.fetch_missing_records(sql_cursor, missing_ids)
                 inserted = FXOptionTradeSync.insert_records(pg_cursor, records)
                 pg_conn.commit()
-                logger.info(f"✅ Inserted {inserted} records")
+                logger.info(f"[OK] Inserted {inserted} records")
 
             # Final verification
             pg_cursor.execute(f"SELECT COUNT(*) FROM {FXOptionTradeSync.TARGET_TABLE}")
             final_count = pg_cursor.fetchone()[0]
-            logger.info(f"✅ Final count in Azure: {final_count}")
+            logger.info(f"[OK] Final count in Azure: {final_count}")
 
             if final_count == len(source_ids):
-                logger.info("✅ EXACT MATCH - All records synced!")
+                logger.info("[OK] EXACT MATCH - All records synced!")
                 return True
             else:
-                logger.warning(f"⚠️  MISMATCH - Expected {len(source_ids)}, got {final_count}")
+                logger.warning(f"[WARN] MISMATCH - Expected {len(source_ids)}, got {final_count}")
                 return False
 
         finally:
@@ -328,7 +328,7 @@ def main():
     """Main sync orchestrator"""
     logger.info("=" * 80)
     logger.info("S002 TO AZURE POSTGRESQL SYNCHRONIZATION")
-    logger.info("ONE-WAY SYNC: s002 (READ ONLY) → Azure PostgreSQL (WRITE)")
+    logger.info("ONE-WAY SYNC: s002 (READ ONLY) -> Azure PostgreSQL (WRITE)")
     logger.info("=" * 80)
     logger.info(f"Started at: {datetime.now()}")
     logger.info("")
@@ -349,13 +349,13 @@ def main():
         logger.info("")
         logger.info("=" * 80)
         if success:
-            logger.info("✅ ALL SYNCS COMPLETED SUCCESSFULLY")
+            logger.info("[OK] ALL SYNCS COMPLETED SUCCESSFULLY")
         else:
-            logger.warning("⚠️  SYNC COMPLETED WITH WARNINGS")
+            logger.warning("[WARN] SYNC COMPLETED WITH WARNINGS")
         logger.info("=" * 80)
 
     except Exception as e:
-        logger.error(f"❌ SYNC FAILED: {e}", exc_info=True)
+        logger.error(f"[ERROR] SYNC FAILED: {e}", exc_info=True)
         sys.exit(1)
 
     logger.info(f"Completed at: {datetime.now()}")
