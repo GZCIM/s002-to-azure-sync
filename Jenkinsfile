@@ -40,7 +40,7 @@ pipeline {
 
     options {
         // Keep last 30 builds
-        buildDiscard(logRotator(numToKeepStr: '30'))
+        buildDiscarder(logRotator(numToKeepStr: '30'))
 
         // Timeout after 10 minutes
         timeout(time: 10, unit: 'MINUTES')
