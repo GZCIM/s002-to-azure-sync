@@ -52,10 +52,11 @@ pipeline {
             steps {
                 echo 'Setting up Python environment...'
                 bat '''
-                    python --version
-                    pip install --quiet --upgrade pip
-                    pip install --quiet -r requirements.txt
-                '''
+  C:\\BIN\\Python\\3.8\\python.exe --version
+  C:\\BIN\\Python\\3.8\\python.exe -m pip install --upgrade pip setuptools wheel
+  set PIP_PREFER_BINARY=1
+  C:\\BIN\\Python\\3.8\\python.exe -m pip install --only-binary=:all: -r requirements.txt
+'''
             }
         }
 
