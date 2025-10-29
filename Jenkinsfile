@@ -11,9 +11,7 @@
  */
 
 pipeline {
-    agent {
-         agent any  // Use Windows agent
-    }
+    agent any 
 
     // Run every 15 minutes during trading hours (6 AM - 6 PM weekdays)
     triggers {
