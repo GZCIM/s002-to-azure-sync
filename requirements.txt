@@ -1,0 +1,10 @@
+# S002 to Azure PostgreSQL Sync - Python Dependencies
+
+# SQL Server connectivity
+pyodbc>=5.0.0
+
+# PostgreSQL connectivity
+psycopg2-binary>=2.9.0
+
+# Configuration (optional)
+python-dotenv>=1.0.0
