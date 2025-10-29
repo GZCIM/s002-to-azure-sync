@@ -12,7 +12,7 @@
 
 pipeline {
     agent {
-        label 'windows'  // Use Windows agent
+         agent any  // Use Windows agent
     }
 
     // Run every 15 minutes during trading hours (6 AM - 6 PM weekdays)
